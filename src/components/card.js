@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, Pressable} from "react-native";
 import {SIZES, FONTS, COLORS, SHADOW} from "../constants";
-import CheckBox from 'react-native-check-box';
+import Checkbox from 'expo-checkbox';
 
 const styles = StyleSheet.create({
     view:{
@@ -13,12 +13,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: COLORS.secondary,
+        marginBottom: 15
     },
     checkbox:{
-        height: 26,
-        width: 26,
-        borderRadius: 5,
-        backgroundColor: COLORS.primary,
         marginRight: 15,
     },
     text:{
@@ -29,9 +26,13 @@ const styles = StyleSheet.create({
 
 export default function Card(props){
     return (
-        <View style={styles.view}>
-            <CheckBox style={styles.checkbox} onClick={() => alert('123')}/>
-            <Text style={styles.text}>{ props.text }</Text>
-        </View>
+        <Pressable style={styles.view} onLongPress={() => props.deleteItem(props.index)}>
+            <Checkbox style={styles.checkbox}
+                      value={props.data.isSelected}
+                      onValueChange={(value) => props.setIsSelected(props.index, value)} />
+            <Text style={{...styles.text, textDecorationLine: props.data.isSelected ? 'line-through' : 'none'}}>
+                { props.data.text }
+            </Text>
+        </Pressable>
     )
 }
